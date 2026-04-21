@@ -14,6 +14,11 @@ This project is a Machine Learning web application designed to predict customer 
 * **Confidence Scoring:** The model doesn't just output "Yes" or "No"; it provides a probability percentage indicating how confident it is in the prediction.
 * **Comprehensive Feature Analysis:** The model evaluates 19 distinct customer attributes, ranging from billing preferences to technical support usage.
 
+
+
+![ML_LIFECYCLE](assets\ml_lifecycle.png)
+
+
 ## 3.0 Technology Stack
 
 * **Machine Learning:** `scikit-learn` (Random Forest Classifier), `pandas` (Data Manipulation)
