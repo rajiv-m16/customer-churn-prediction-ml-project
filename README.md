@@ -1,81 +1,90 @@
-# Customer Retention
 
-## 🔴 Detailed Session on EDA:
+# 📞 Telecom Customer Churn Prediction
 
-[![Alt text](https://user-images.githubusercontent.com/34673684/117579611-49cd5880-b126-11eb-9e2b-ef865c090808.png)](https://www.youtube.com/watch?v=baL7OrGWlxs)
+## 1.0 Project Overview
 
-## 🔴 One of my previous Sessions on EDA, Model Building & Model Deployment: 
+This project is a Machine Learning web application designed to predict customer churn in the telecommunications sector. 
+* It utilizes a Random Forest Classifier trained on historical customer data to identify users who are at a high risk of canceling their subscriptions. 
+* By analyzing demographic information, account details, and service usage patterns, the application provides a predictive confidence score.
+* This allows businesses to take proactive retention measures before the customer actually leaves.
 
-[![Alt text](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/CC.JPG)](https://www.youtube.com/watch?v=GVECbcKUio4)
+## 2.0 Features
 
-## 🔴 What is Customer Churning ?
+* **Real-Time Predictions:** Users can input customer data through a web interface and instantly receive a churn prediction.
+* **Confidence Scoring:** The model doesn't just output "Yes" or "No"; it provides a probability percentage indicating how confident it is in the prediction.
+* **Comprehensive Feature Analysis:** The model evaluates 19 distinct customer attributes, ranging from billing preferences to technical support usage.
 
-![Customer Retention](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/Telco1.JPG)
+## 3.0 Technology Stack
 
-## 🔴 What are the different Churn Scenarios ?
+* **Machine Learning:** `scikit-learn` (Random Forest Classifier), `pandas` (Data Manipulation)
+* **Backend:** Python, Flask
+* **Frontend:** HTML5, Bootstrap 4, jQuery
+* **Model Serialization:** `pickle`
 
-![Churn Scenarios](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/Telco2.JPG)
+## 4.0 Installation and Setup
 
-## 🔴 Decision Cycle of a Subscriber ?
+To run this project locally, follow these steps:
 
-![Decision Cycle](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/Telco3.JPG)
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repository-url>
+   cd TelecomChurnPredictionModel
+   ```
+2. **Install the required dependencies:**
+   Ensure you have Python installed, then install the necessary packages.
+   ```bash
+   pip install pandas scikit-learn flask
+   ```
+3. **Run the Flask application:**
+   ```bash
+   python app.py
+   ```
+4. **Access the web interface:**
+   Open your web browser and navigate to `http://127.0.0.1:5000/`.
 
-## 🔴 What are the different Churn Segments ?
+## 5.0 Usage Example
 
-![Churn Segments](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/Telco4.JPG)
+To successfully predict a customer's churn probability, you must fill out the form fields with specific, formatted data that matches the training dataset.
 
-## 🔴 Solution Overview
+**Example Input Scenario (High-Risk Customer):**
+* **SeniorCitizen:** `0` (Meaning: No)
+* **MonthlyCharges:** `85.50`
+* **TotalCharges:** `120.00`
+* **gender:** `Female`
+* **Partner:** `No`
+* **Dependents:** `No`
+* **PhoneService:** `Yes`
+* **MultipleLines:** `Yes`
+* **InternetService:** `Fiber optic`
+* **Contract:** `Month-to-month`
+* **PaperlessBilling:** `Yes`
+* **PaymentMethod:** `Electronic check`
+* **tenure:** `2` (Meaning: 2 months)
 
-![Solution](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/Telco5.JPG)
+Once submitted, the backend processes these inputs, encodes the categorical strings, and feeds them to the Random Forest model. The UI will return a statement such as: *"This customer is likely to be churned!! Confidence: 82.4%*".
 
+## 6.0 Project Architecture & Structure
 
-In this repository, we have performed the end to end Exploratory Data Analysis, and idenfitied the characteristics of the customers that are more likely to churn, and I have used them wisely to create a model, and lately, have deployed the model.
-
-### 🟢 For EDA, please refer to : Churn Analysis - EDA.ipynb
-### 🟢 For Model Building, please refer to: Churn Analysis - Model Building.ipynb
-### 🟢 For Model Deployment, please refer to app.py
-
-
-### 🔵 Creating the flask API
-
+```text
+└── 📁 TelecomChurnPredictionModel/
+    ├── 📁 assets/
+    │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv  # Original dataset
+    ├── 📁 templates/
+    │   └── home.html                             # Frontend user interface
+    ├── app.py                                    # Flask backend and prediction logic
+    ├── Churn Analysis - EDA.ipynb                # Exploratory Data Analysis notebook
+    ├── Churn Analysis - Model Building.ipynb     # Model training and export notebook
+    ├── first_telc.csv                            # Base dataset used for dummy variable generation
+    ├── model.sav                                 # Serialized Random Forest model
+    └── tel_churn.csv                             # Cleaned dataset
 ```
-app = Flask("__name__")
-```
 
-The loadPage method calls our home.html.
-```
-@app.route("/")
-def loadPage():
-	return render_template('home.html', query="")
-```
+## 7.0 Known Limitations & Future Improvements
 
-The predict method is our POST method, which is basically called when we pass all the inputs from our front end and click SUBMIT.
-```
-@app.route("/", methods=['POST'])
-def predict():
-```
-  
-The run() method of Flask class runs the application on the local development server.
-```
-app.run()
-```
+To scale this application for a production environment, the following architectural refactoring is planned:
 
+* **Optimize Data Encoding:** Currently, the application concatenates new user input with an entire historical dataset (`first_telc.csv`) to compute dummy variables via `pd.get_dummies()`. This will be replaced by saving a fitted `sklearn.preprocessing.OneHotEncoder` object during model training, allowing instant transformation of single-row inputs without memory overhead.
+* **Global Model Loading:** The `model.sav` file is currently loaded inside the prediction route, meaning disk I/O occurs on every single form submission. This will be moved to the global scope to load into memory only once upon server startup.
+* **Frontend Data Validation:** The HTML form currently relies on `<textarea>` elements for all inputs. These will be updated to `<select>` dropdowns for categorical variables and `<input type="number">` for continuous variables to prevent typos, data-type mismatches, and backend crashes.
 
-Yay, our model is ready, let’s test our bot.
-The above given Python script is executed from Python shell.
-
-Go to Anaconda Prompt, and run the below query.
-```
-python app.py
-```
-
-
-Below message in Python shell is seen, which indicates that our App is now hosted at http://127.0.0.1:5000/ or localhost:5000
-```
-* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-```
-
-
-HERE'S HOW OUR FRONTEND LOOKS LIKE:
-
-![Customer Retention](https://raw.githubusercontent.com/pik1989/MLProject-Churn-Analysis-And-Prediction-Model/main/images/Telco6.JPG)
+***
