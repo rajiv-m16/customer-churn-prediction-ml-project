@@ -16,7 +16,7 @@ This project is a Machine Learning web application designed to predict customer 
 
 
 
-![ML_LIFECYCLE](assets\ml_lifecycle.png)
+![ML_LIFECYCLE](\assets\ml_lifecycle.png)
 
 
 ## 3.0 Technology Stack
