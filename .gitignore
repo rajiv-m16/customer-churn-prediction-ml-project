@@ -1,0 +1,31 @@
+# Python Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+
+# Data Files (Avoid pushing large datasets)
+# These files are present in your current project structure
+assets/*.csv
+*.csv
+
+# Machine Learning Models (Binaries)
+# You already have model.sav in your root
+*.sav
+*.pkl
+
+# IDE Specific Files
+.vscode/
+.idea/
+*.swp
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
+
+customer_churn_prediction_project-output.md
